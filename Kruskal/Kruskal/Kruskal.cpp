@@ -4,6 +4,7 @@
 #include <vector>
 #include <algorithm>
 #include <fstream>//Para leer un fichero con el grafo
+#include <chrono>//Para poder medir el tiempo
 
 using namespace std;
 
@@ -193,12 +194,6 @@ Grafo leerGrafo(string fichero)//Se lee desde un fichero fuente el grafo
 	return g;
 }
 
-/*To do:
-	-estructura para guardar el grafo valorado (listas de adyacencia) -> done
-	-estructura para guardar las aristas ordenadas de menor a mayor. -> vector de aristas
-	-estructura para guardar el ARM -> conjunto de aristas -> estructura para guardar conjuntos de aristas -> done
-	*/
-
 bool comp(const arista& a1, const arista a2)
 {
 	return a1.peso < a2.peso;
@@ -210,7 +205,7 @@ vector <arista> kruskal(const Grafo &g)
 
 	//Obtener aristas ordenadas por peso
 	vector <arista> aristasGrafo = g.getAristas();//O(2a + v) siendo a el nº de aristas y v el nº de vértices
-	sort(aristasGrafo.begin(), aristasGrafo.end(), comp);//O(log a) siendo a el nº de aristas a ordenar
+	sort(aristasGrafo.begin(), aristasGrafo.end(), comp);//O(a * log a) siendo a el nº de aristas a ordenar
 
 	//Crear estructura de partición
 	Particion p(g.vertices.size());//Se crea una estructura de partición del tamaño igual al nº de vértices (v) del grafo (Coste: O(v))
@@ -238,28 +233,32 @@ int main()
 {
 	//Cada vértice del grafo se identifica por un nº únicamente para él entre 0 y n-1 (siendo n el nº de vértices)
 
-	//Probando la estructura de partición...
-	/*Particion conjunto(5);
-	conjunto.fusionar(2, 3);
-	conjunto.fusionar(4, 2);
-	conjunto.imprimir();
-
-	conjunto.fusionar(0, 1);
-	conjunto.fusionar(1, 2);
-	conjunto.imprimir();
-	cout << conjunto.buscar(4) << endl;*/
-
 	cout << "Indique el fichero desde el cual quiere cargar el grafo: ";
 	string fichero;
 	cin >> fichero;
 
-	Grafo g = leerGrafo(fichero);//Leer un grafo desde un fichero
+	Grafo g = leerGrafo(fichero);//Leer un grafo desde un fichero (puede tardar en ficheros muy grandes)
 
+	//Medimos el tiempo
+	/*
+	Referencias:
+		- https://levelup.gitconnected.com/8-ways-to-measure-execution-time-in-c-c-48634458d0f9
+		- https://en.cppreference.com/w/cpp/chrono/system_clock/now
+	*/
+	// Marcar el momento de inicio
+	auto start = std::chrono::system_clock::now();
+
+	// Actuar
 	vector<arista> arm = kruskal(g);//Se genera el ARM del grafo como un conjunto de aristas
 
+	// Marcar el momento final
+	auto end = std::chrono::system_clock::now();
+	auto diff = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);//Se calcula el tiempo resultante en milisegundos
+	std::cout << "Tiempo consumido: " << diff.count() << " ms\n";
+
 	//Se imprime la solución...
-	for (auto x : arm)
-		cout << x.v1 << ' ' << x.v2 << ' ' << x.peso << endl;
+	/*for (auto x : arm)
+		cout << x.v1 << ' ' << x.v2 << ' ' << x.peso << endl;*/
 
 	cout << "Execution finished\n";
 }
