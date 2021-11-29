@@ -2,6 +2,7 @@
 //Asignatura: Métodos algorítmicos en resolución de problemas
 #include <iostream>
 #include <vector>
+#include <algorithm>
 #include <fstream>//Para leer un fichero con el grafo
 
 using namespace std;
@@ -123,6 +124,27 @@ public:
 		vertices[a.v2].aristas.push_back({ a.v1, a.peso });
 	}
 
+	vector <arista> getAristas() const//O(2a + v) siendo a el nº de aristas y v el nº de vértices
+	{
+		vector <arista> ret;
+		//Se recorre la lista de adyacencia de cada vértice
+		for (int i = 0; i < vertices.size(); i++)
+		{
+			for (int j = 0; j < vertices[i].aristas.size(); j++)
+			{
+				if (vertices[i].aristas[j].first >= i)//Si el vértice es posterior (para no repetir aristas)
+				{
+					arista aux;
+					aux.peso = vertices[i].aristas[j].second;
+					aux.v1 = i;
+					aux.v2 = vertices[i].aristas[j].first;
+					ret.push_back(aux);
+				}
+			}
+		}
+		return ret;
+	}
+
 	void imprimir()//Para facilitar la depuración
 	{
 		//Imprimir lista de adyacencia del grafo
@@ -177,6 +199,41 @@ Grafo leerGrafo(string fichero)//Se lee desde un fichero fuente el grafo
 	-estructura para guardar el ARM -> conjunto de aristas -> estructura para guardar conjuntos de aristas -> done
 	*/
 
+bool comp(const arista& a1, const arista a2)
+{
+	return a1.peso < a2.peso;
+}
+
+vector <arista> kruskal(const Grafo &g)
+{
+	vector <arista> arm(0);//Vector de aristas que conforman el arm (inicialmente vacío)
+
+	//Obtener aristas ordenadas por peso
+	vector <arista> aristasGrafo = g.getAristas();//O(2a + v) siendo a el nº de aristas y v el nº de vértices
+	sort(aristasGrafo.begin(), aristasGrafo.end(), comp);//O(log a) siendo a el nº de aristas a ordenar
+
+	//Crear estructura de partición
+	Particion p(g.vertices.size());//Se crea una estructura de partición del tamaño igual al nº de vértices (v) del grafo (Coste: O(v))
+
+	//Analizar la aristas en orden creciente según su peso
+	for (int i = 0; i < aristasGrafo.size() && arm.size() < g.vertices.size() - 1; i++)//O(v) siendo v el nº de vértices
+	{
+		arista act = aristasGrafo[i];//Arista a analizar
+
+		//Se buscan los representantes del conjunto
+		int c1 = p.buscar(act.v1);
+		int c2 = p.buscar(act.v2);
+		if (c1 != c2)//Si no pertenecen al mismo conjunto
+		{
+			p.fusionar(c1, c2);//Se fusionan los conjuntos
+			arm.push_back(act);//Se añade al ARM
+		}
+		//Las operaciones anteriores en coste amortizado O(alpha(n)) siendo esto muy cercano a O(1)
+	}
+
+	return arm;
+}
+
 int main()
 {
 	//Cada vértice del grafo se identifica por un nº únicamente para él entre 0 y n-1 (siendo n el nº de vértices)
@@ -198,11 +255,11 @@ int main()
 
 	Grafo g = leerGrafo(fichero);//Leer un grafo desde un fichero
 
-	g.imprimir();
-
-	//vector<arista> arm = kruskal(g);//Se genera el ARM del grafo como un conjunto de aristas
+	vector<arista> arm = kruskal(g);//Se genera el ARM del grafo como un conjunto de aristas
 
 	//Se imprime la solución...
+	for (auto x : arm)
+		cout << x.v1 << ' ' << x.v2 << ' ' << x.peso << endl;
 
 	cout << "Execution finished\n";
 }
