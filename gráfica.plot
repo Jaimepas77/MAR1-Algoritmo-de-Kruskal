@@ -1,7 +1,13 @@
+#Variables a usar
+dataFile = "data1.txt"
+titulo = "Tiempos de ejecución medidos"
+xLabel = "Vértices"
+yLabel = "Tiempo en milisegundos"
+
 #Ajustes iniciales
-set title "Tiempos de ejecución medidos"
-set xlabel "Vértices"
-set ylabel "Tiempo en milisegundos"
+set title titulo
+set xlabel xLabel
+set ylabel yLabel
 
 #Mostrar los datos
-plot "data1.txt" with lines title "Kruskal", "data1.txt" with points pointtype 7 title ""
+plot dataFile with lines title "Kruskal", dataFile with points pointtype 7 title ""

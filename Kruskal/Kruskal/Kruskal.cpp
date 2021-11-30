@@ -14,6 +14,11 @@ struct arista
 	int peso;
 };
 
+bool comp(const arista& a1, const arista a2)
+{
+	return a1.peso < a2.peso;
+}
+
 class Particion
 {
 private:
@@ -150,10 +155,10 @@ public:
 	{
 		//Imprimir lista de adyacencia del grafo
 		int i = 0;
-		for (const auto &x : vertices)
+		for (const auto& x : vertices)
 		{
 			cout << i << ": ";
-			for (const auto &y : x.aristas)
+			for (const auto& y : x.aristas)
 				cout << y.first << " " << y.second << " | ";
 			cout << endl;
 			i++;
@@ -177,7 +182,7 @@ Grafo leerGrafo(string fichero)//Se lee desde un fichero fuente el grafo
 		return g;
 	}
 
-	//Se lee el grafo como, dado su nº de vertices y aristas, una lista de aristas.
+	//Se lee el grafo como, dado su nº de vértices y aristas, una lista de aristas.
 	//(luego, en la estructura, se guardan en listas de adyacencia por vértices)
 	int vertices, aristas;
 	input >> vertices >> aristas;
@@ -194,12 +199,7 @@ Grafo leerGrafo(string fichero)//Se lee desde un fichero fuente el grafo
 	return g;
 }
 
-bool comp(const arista& a1, const arista a2)
-{
-	return a1.peso < a2.peso;
-}
-
-vector <arista> kruskal(const Grafo &g)
+vector <arista> kruskal(const Grafo& g)
 {
 	vector <arista> arm(0);//Vector de aristas que conforman el arm (inicialmente vacío)
 
@@ -229,16 +229,8 @@ vector <arista> kruskal(const Grafo &g)
 	return arm;
 }
 
-int main()
+int medirTiempo(const Grafo& g)
 {
-	//Cada vértice del grafo se identifica por un nº únicamente para él entre 0 y n-1 (siendo n el nº de vértices)
-
-	cout << "Indique el fichero desde el cual quiere cargar el grafo: ";
-	string fichero;
-	cin >> fichero;
-
-	Grafo g = leerGrafo(fichero);//Leer un grafo desde un fichero (puede tardar en ficheros muy grandes)
-
 	//Medimos el tiempo
 	/*
 	Referencias:
@@ -256,9 +248,43 @@ int main()
 	auto diff = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);//Se calcula el tiempo resultante en milisegundos
 	std::cout << "Tiempo consumido: " << diff.count() << " ms\n";
 
-	//Se imprime la solución...
-	/*for (auto x : arm)
-		cout << x.v1 << ' ' << x.v2 << ' ' << x.peso << endl;*/
+	return diff.count();
+}
 
-	cout << "Execution finished\n";
+int main()
+{
+	//Cada vértice del grafo se identifica por un nº únicamente para él entre 0 y n-1 (siendo n el nº de vértices)
+
+	cout << "Indique el fichero desde el cual quiere cargar el grafo: ";
+	string fichero;
+	cin >> fichero;
+
+	Grafo g = leerGrafo(fichero);//Leer un grafo desde un fichero (puede tardar en ficheros muy grandes)
+
+	cout << "Grafo cargado\n";
+	//Una vez leído el grafo, se pregunta que se quiere hacer con él.
+	cout << "Eliga el proposito con el que desea ejecutar el algoritmo de Kruskal:\n";
+	cout << "1 - Mostrar el ARM resultante por pantalla como secuencia de aristas\n";
+	cout << "2 - Medir el tiempo de ejecucion\n";
+	cout << "0 - salir\n";
+	cout << "Introduzca su opcion: ";
+	int op;
+	cin >> op;
+
+	switch (op)
+	{
+	case 1:
+	{
+		vector<arista> arm = kruskal(g);//Se genera el ARM del grafo como un conjunto de aristas
+
+		for (auto x : arm)
+			cout << x.v1 << ' ' << x.v2 << ' ' << x.peso << endl;
+	}
+	break;
+	case 2:
+		medirTiempo(g);
+		break;
+	}
+
+	cout << "El programa ha finalizado correctamente\n";
 }
