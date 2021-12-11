@@ -8,6 +8,8 @@
 
 using namespace std;
 
+const vector<string> GRAFO_NORMAL = { "normal10", "normal20", "normal50", "normal500", "normal5000", "normal10000", "normal20000", "normal30000", "normal40000", "normal50000", "normal60000", "normal70000", "normal80000", "normal90000", "normal100000" };
+
 struct arista
 {
 	int v1, v2;//Vértices que conecta
@@ -173,11 +175,13 @@ Grafo leerGrafo(string fichero)//Se lee desde un fichero fuente el grafo
 	// https://csacademy.com/app/graph_editor/  PD: si el grafo es enorme la página colapsará
 	// (se asume que el grafo es conexo)
 
+	cout << "Leyendo grafo...\n";
+
 	ifstream input;
 	input.open(fichero);
 	if (!input.is_open())
 	{
-		cout << "Fichero no encontrado para leer el grafo\n";
+		cout << "ERROR: Fichero no encontrado para leer el grafo, se emplea un grafo vacio.\n";
 		Grafo g(0);//Si no se encuentra se devuelve vacío
 		return g;
 	}
@@ -229,7 +233,7 @@ vector <arista> kruskal(const Grafo& g)
 	return arm;
 }
 
-int medirTiempo(const Grafo& g)
+int medirTiempo(const Grafo& g)//Devuelve el tiempo en ms
 {
 	//Medimos el tiempo
 	/*
@@ -251,7 +255,46 @@ int medirTiempo(const Grafo& g)
 	return diff.count();
 }
 
-int main()
+void menuTiempos()
+{
+	vector<string>origen;//Lista de archivos que contienen cada grafo de los que se van a analizar
+
+	int op;
+
+	//Menu de seleccion de conjunto de datos fuente
+	//...
+	op = 1;
+
+	switch (op)
+	{
+	case 1:
+		origen = GRAFO_NORMAL;//Se asocia una lista de ficheros input
+		break;
+	case 2:
+
+		break;
+	}
+
+	ofstream vertices;
+	vertices.open("medicionesEnVertices.txt");
+	ofstream aristas;
+	aristas.open("medicionesEnAristas.txt");
+	for (const auto& act : origen)
+	{
+		Grafo g = leerGrafo(act);//Leer el grafo
+		int tiempo = medirTiempo(g);
+		int t1 = medirTiempo(g);
+		int t2 = medirTiempo(g);
+		tiempo = (tiempo + t1 + t2) / 3;//Para cada punto se hace la media de tres mediciones
+
+		vertices << g.vertices.size() << ' ' << tiempo << '\n';
+		aristas << g.getAristas().size() << ' ' << tiempo << '\n';
+	}
+	aristas.close();
+	vertices.close();
+}
+
+void menuKruskal()
 {
 	//Cada vértice del grafo se identifica por un nº únicamente para él entre 0 y n-1 (siendo n el nº de vértices)
 
@@ -263,10 +306,11 @@ int main()
 
 	cout << "Grafo cargado\n";
 	//Una vez leído el grafo, se pregunta que se quiere hacer con él.
+	cout << "\n";
 	cout << "Eliga el proposito con el que desea ejecutar el algoritmo de Kruskal:\n";
 	cout << "1 - Mostrar el ARM resultante por pantalla como secuencia de aristas\n";
 	cout << "2 - Medir el tiempo de ejecucion\n";
-	cout << "0 - salir\n";
+	cout << "0 - Salir\n";
 	cout << "Introduzca su opcion: ";
 	int op;
 	cin >> op;
@@ -285,6 +329,31 @@ int main()
 		medirTiempo(g);
 		break;
 	}
+}
+
+int main()
+{
+	int op = -1;
+	do
+	{
+		cout << "____________________________\n";
+		cout << "Menu principal:\n";
+		cout << "1 - Crear lista de medicion de tiempos\n";
+		cout << "2 - Ejecutar el algoritmo de kruskal sobre un grafo concreto\n";
+		cout << "0 - Salir\n";
+		cout << "Introduzca su opcion: ";
+		cin >> op;
+
+		switch (op)
+		{
+		case 1:
+			menuTiempos();
+			break;
+		case 2:
+			menuKruskal();
+			break;
+		}
+	} while (op != 0);
 
 	cout << "El programa ha finalizado correctamente\n";
 }
