@@ -9,6 +9,7 @@
 using namespace std;
 
 const vector<string> GRAFO_NORMAL = { "normal10", "normal20", "normal50", "normal500", "normal5000", "normal10000", "normal20000", "normal30000", "normal40000", "normal50000", "normal60000", "normal70000", "normal80000", "normal90000", "normal100000" };
+const vector<string> GRAFO_COMPLETO = { "completo10", "completo50", "completo500", "completo1000", "completo2000", "completo3000", "completo4000", "completo5000"};
 
 struct arista
 {
@@ -16,7 +17,7 @@ struct arista
 	int peso;
 };
 
-bool comp(const arista& a1, const arista a2)
+bool comp(const arista& a1, const arista& a2)
 {
 	return a1.peso < a2.peso;
 }
@@ -250,6 +251,20 @@ int medirTiempo(const Grafo& g)//Devuelve el tiempo en ms
 	// Marcar el momento final
 	auto end = std::chrono::system_clock::now();
 	auto diff = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);//Se calcula el tiempo resultante en milisegundos
+
+	if (diff.count() < 20)//Si el tiempo medido es menor que 20 se repite el algoritmo 1000 veces
+	{
+		start = std::chrono::system_clock::now();
+
+		for (int i = 0; i < 100; i++)
+		{
+			arm = kruskal(g);//Se genera el ARM del grafo como un conjunto de aristas
+		}
+
+		end = std::chrono::system_clock::now();
+		diff = std::chrono::duration_cast<std::chrono::milliseconds>(end - start)/100;//Se calcula el tiempo resultante en milisegundos
+	}
+
 	std::cout << "Tiempo consumido: " << diff.count() << " ms\n";
 
 	return diff.count();
@@ -260,10 +275,12 @@ void menuTiempos()
 	vector<string>origen;//Lista de archivos que contienen cada grafo de los que se van a analizar
 
 	int op;
-
 	//Menu de seleccion de conjunto de datos fuente
-	//...
-	op = 1;
+	cout << "Seleccione sobre que conjunto de datos desea generar mediciones de tiempos:\n";
+	cout << "1 - Conjunto de grafos normales (relacion de num de aristas = 3/2*num de vertices)\n";
+	cout << "2 - Conjunto de grafos completos (todos los vertices conectados entre si)\n";
+	cout << "Introduzca su opcion: ";
+	cin >> op;
 
 	switch (op)
 	{
@@ -271,8 +288,10 @@ void menuTiempos()
 		origen = GRAFO_NORMAL;//Se asocia una lista de ficheros input
 		break;
 	case 2:
-
+		origen = GRAFO_COMPLETO;
 		break;
+	default:
+		return;//No hacer nada
 	}
 
 	ofstream vertices;

@@ -1,6 +1,6 @@
 #Variables a usar
-dataFile = "medicionesEnVertices.txt"
-titulo = "Tiempos de ejecución medidos"
+dataFile = "completoVertices.txt"
+titulo = "Tiempos de ejecución medidos en un grafo completo"
 xLabel = "Vértices"
 yLabel = "Tiempo en milisegundos"
 

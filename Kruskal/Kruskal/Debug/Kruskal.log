@@ -1,10 +1,10 @@
 ﻿  Kruskal.cpp
-C:\Users\jaime\Documents\_Universidad\Asignaturas\3º\_Primer cuatrimestre\MAR\Práctica\MAR1-Algoritmo-de-Kruskal\Kruskal\Kruskal\Kruskal.cpp(92,22): warning C4018: '<': no coinciden signed/unsigned
-C:\Users\jaime\Documents\_Universidad\Asignaturas\3º\_Primer cuatrimestre\MAR\Práctica\MAR1-Algoritmo-de-Kruskal\Kruskal\Kruskal\Kruskal.cpp(98,22): warning C4018: '<': no coinciden signed/unsigned
-C:\Users\jaime\Documents\_Universidad\Asignaturas\3º\_Primer cuatrimestre\MAR\Práctica\MAR1-Algoritmo-de-Kruskal\Kruskal\Kruskal\Kruskal.cpp(139,21): warning C4018: '<': no coinciden signed/unsigned
-C:\Users\jaime\Documents\_Universidad\Asignaturas\3º\_Primer cuatrimestre\MAR\Práctica\MAR1-Algoritmo-de-Kruskal\Kruskal\Kruskal\Kruskal.cpp(141,22): warning C4018: '<': no coinciden signed/unsigned
-C:\Users\jaime\Documents\_Universidad\Asignaturas\3º\_Primer cuatrimestre\MAR\Práctica\MAR1-Algoritmo-de-Kruskal\Kruskal\Kruskal\Kruskal.cpp(218,20): warning C4018: '<': no coinciden signed/unsigned
-C:\Users\jaime\Documents\_Universidad\Asignaturas\3º\_Primer cuatrimestre\MAR\Práctica\MAR1-Algoritmo-de-Kruskal\Kruskal\Kruskal\Kruskal.cpp(255,19): warning C4244: 'return': conversión de '_Rep' a 'int'; posible pérdida de datos
+C:\Users\jaime\Documents\_Universidad\Asignaturas\3º\_Primer cuatrimestre\MAR\Práctica\MAR1-Algoritmo-de-Kruskal\Kruskal\Kruskal\Kruskal.cpp(93,22): warning C4018: '<': no coinciden signed/unsigned
+C:\Users\jaime\Documents\_Universidad\Asignaturas\3º\_Primer cuatrimestre\MAR\Práctica\MAR1-Algoritmo-de-Kruskal\Kruskal\Kruskal\Kruskal.cpp(99,22): warning C4018: '<': no coinciden signed/unsigned
+C:\Users\jaime\Documents\_Universidad\Asignaturas\3º\_Primer cuatrimestre\MAR\Práctica\MAR1-Algoritmo-de-Kruskal\Kruskal\Kruskal\Kruskal.cpp(140,21): warning C4018: '<': no coinciden signed/unsigned
+C:\Users\jaime\Documents\_Universidad\Asignaturas\3º\_Primer cuatrimestre\MAR\Práctica\MAR1-Algoritmo-de-Kruskal\Kruskal\Kruskal\Kruskal.cpp(142,22): warning C4018: '<': no coinciden signed/unsigned
+C:\Users\jaime\Documents\_Universidad\Asignaturas\3º\_Primer cuatrimestre\MAR\Práctica\MAR1-Algoritmo-de-Kruskal\Kruskal\Kruskal\Kruskal.cpp(219,20): warning C4018: '<': no coinciden signed/unsigned
+C:\Users\jaime\Documents\_Universidad\Asignaturas\3º\_Primer cuatrimestre\MAR\Práctica\MAR1-Algoritmo-de-Kruskal\Kruskal\Kruskal\Kruskal.cpp(270,19): warning C4244: 'return': conversión de '_Rep' a 'int'; posible pérdida de datos
           with
           [
               _Rep=__int64
