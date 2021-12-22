@@ -170,9 +170,9 @@ public:
 	}
 };
 
-Grafo leerGrafo(string fichero)//Se lee desde un fichero fuente el grafo
+Grafo leerGrafo(string fichero)//Se lee desde un fichero el grafo
 {
-	//Para visualizar los grafos introducir el fichero fuente en la página del 
+	//Para visualizar los grafos introducir el fichero origen del grafo en la página del 
 	// siguiente link y borrar la primera línea (la de nº de vértices y aristas)
 	// https://csacademy.com/app/graph_editor/  PD: si el grafo es enorme la página colapsará
 	// (se asume que el grafo es conexo)
