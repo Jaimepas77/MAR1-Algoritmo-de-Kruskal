@@ -8,6 +8,7 @@
 
 using namespace std;
 
+//Conjuntos de datos que se tienen para calcular los tiempos de ejecución. Los strings hacen referencia a archivos que contienen grafos.
 const vector<string> GRAFO_NORMAL = { "normal10", "normal20", "normal50", "normal500", "normal5000", "normal10000", "normal20000", "normal30000", "normal40000", "normal50000", "normal60000", "normal70000", "normal80000", "normal90000", "normal100000" };
 const vector<string> GRAFO_COMPLETO = { "completo10", "completo50", "completo500", "completo1000", "completo2000", "completo3000", "completo4000", "completo5000"};
 
@@ -252,7 +253,7 @@ int medirTiempo(const Grafo& g)//Devuelve el tiempo en ms
 	auto end = std::chrono::system_clock::now();
 	auto diff = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);//Se calcula el tiempo resultante en milisegundos
 
-	if (diff.count() < 20)//Si el tiempo medido es menor que 20 se repite el algoritmo 1000 veces
+	if (diff.count() < 20)//Si el tiempo medido es menor que 20 se repite el algoritmo 100 veces
 	{
 		start = std::chrono::system_clock::now();
 
